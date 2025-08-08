@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Http\Controllers\Api\{{modelLower}};
+
+use App\Http\Controllers\Controller;
+use App\Models\{{model}};
+use App\Http\Resources\{{resource}};
+
+class GetOne{{model}}Controller extends Controller
+{
+    public function __invoke($id)
+    {
+        $data = {{model}}::findOrFail($id);
+
+        return new {{resource}}(true, '{{model}} fetched successfully', $data);
+    }
+}
