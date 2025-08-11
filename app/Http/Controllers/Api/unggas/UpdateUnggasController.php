@@ -12,14 +12,12 @@ class UpdateUnggasController extends Controller
 {
     public function __invoke(Request $request, $id)
     {
-        // Validasi minimal (semua nullable biar bisa partial update)
         $validated = $request->validate(
             ValidationHelper::updateRulesFromModel(Unggas::class)
         );
 
         $item = Unggas::findOrFail($id);
 
-        // Update data
         $item->update($validated);
 
         return new UnggasResource(true, 'Unggas updated successfully', $item);

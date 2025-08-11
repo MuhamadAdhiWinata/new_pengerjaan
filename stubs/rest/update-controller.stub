@@ -13,12 +13,11 @@ class Update{{model}}Controller extends Controller
     public function __invoke(Request $request, $id)
     {
         $validated = $request->validate(
-            ValidationHelper::updateRulesFromModel({{model}}::class, $id)
+            ValidationHelper::updateRulesFromModel({{model}}::class)
         );
 
-         $item = {{model}}::findOrFail($id);
+        $item = {{model}}::findOrFail($id);
 
-        // Update data
         $item->update($validated);
 
         return new {{resource}}(true, '{{model}} updated successfully', $item);

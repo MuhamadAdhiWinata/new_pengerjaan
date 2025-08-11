@@ -15,3 +15,20 @@ Route::prefix('unggass')->name('unggas.')->group(function () {
     Route::put('/{id}', UpdateUnggasController::class)->name('update');
     Route::delete('/{id}', DeleteUnggasController::class)->name('destroy');
 });
+
+
+
+// Auto-generated for Botol
+use App\Http\Controllers\Api\botol\CreateBotolController;
+use App\Http\Controllers\Api\botol\GetAllBotolController;
+use App\Http\Controllers\Api\botol\GetOneBotolController;
+use App\Http\Controllers\Api\botol\UpdateBotolController;
+use App\Http\Controllers\Api\botol\DeleteBotolController;
+
+Route::prefix('botols')->name('botol.')->group(function () {
+    Route::get('/', GetAllBotolController::class);
+    Route::get('/{id}', GetOneBotolController::class);
+    Route::post('/', CreateBotolController::class);
+    Route::put('/{id}', UpdateBotolController::class);
+    Route::delete('/{id}', DeleteBotolController::class);
+});
