@@ -7,7 +7,20 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-How to Use Adhinath Generator?
+1. Overview
+   RestfulApi Generator By Adhinath adalah CRUD generator berbasis Laravel yang otomatis:
+
+-   Membuat Controller (Create, Read, Update, Delete) lengkap.
+-   Membuat Routes API.
+-   Membuat Migration + Model.
+-   Membuat Form Validation otomatis dari struktur tabel database (via ValidationHelper).
+-   Mendukung validasi otomatis sesuai tipe data.
+
+2. Instalasi
+
+-   Clone RestfulApi Generator By Adhinath.
+
+3.
 
 ## License
 
