@@ -2,33 +2,23 @@
 
 namespace App\Http\Controllers\Api\{{modelLower}};
 
+use App\Helpers\ValidationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\{{model}};
 use App\Http\Resources\{{resource}};
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class Update{{model}}Controller extends Controller
 {
     public function __invoke(Request $request, $id)
     {
-        $validated = $request->validate([
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'title' => 'required',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'stock' => 'required|numeric',
-        ]);
+        $validated = $request->validate(
+            ValidationHelper::updateRulesFromModel({{model}}::class, $id)
+        );
 
-        $item = {{model}}::findOrFail($id);
+         $item = {{model}}::findOrFail($id);
 
-        if ($request->hasFile('image')) {
-            Storage::delete('{{modelLower}}s/' . basename($item->image));
-            $image = $request->file('image');
-            $image->storeAs('{{modelLower}}s', $image->hashName());
-            $validated['image'] = $image->hashName();
-        }
-
+        // Update data
         $item->update($validated);
 
         return new {{resource}}(true, '{{model}} updated successfully', $item);

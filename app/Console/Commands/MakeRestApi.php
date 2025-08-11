@@ -13,8 +13,8 @@ class MakeRestApi extends Command
 
     public function handle()
     {
-        $name = Str::studly($this->argument('name'));           // Product
-        $nameLower = Str::lower($name);                         // product
+        $name = Str::studly($this->argument('name'));
+        $nameLower = Str::lower($name);
         $resourceName = "{$name}Resource";
 
         $controllerPath = app_path("Http/Controllers/Api/{$nameLower}");
@@ -22,7 +22,7 @@ class MakeRestApi extends Command
             File::makeDirectory($controllerPath, 0755, true);
         }
 
-        // 1. Generate Model only (NO migration)
+        // 1. Generate Model & migration
         $this->call('make:model', [
             'name' => $name,
             '--migration' => true]);
@@ -74,12 +74,12 @@ use App\Http\Controllers\Api\\{$nameLower}\\GetOne{$name}Controller;
 use App\Http\Controllers\Api\\{$nameLower}\\Update{$name}Controller;
 use App\Http\Controllers\Api\\{$nameLower}\\Delete{$name}Controller;
 
-    Route::prefix('{$nameLower}s')->name('{$nameLower}.')->group(function () {
-    Route::get('/', GetAll{$name}Controller::class)->name('index');
-    Route::get('/{id}', GetOne{$name}Controller::class)->name('show');
-    Route::post('/', Create{$name}Controller::class)->name('store');
-    Route::put('/{id}', Update{$name}Controller::class)->name('update');
-    Route::delete('/{id}', Delete{$name}Controller::class)->name('destroy');
+Route::prefix('{$nameLower}s')->name('{$nameLower}.')->group(function () {
+    Route::get('/', GetAll{$name}Controller::class);
+    Route::get('/{id}', GetOne{$name}Controller::class);
+    Route::post('/', Create{$name}Controller::class);
+    Route::put('/{id}', Update{$name}Controller::class);
+    Route::delete('/{id}', Delete{$name}Controller::class);
 });
 
 EOT;

@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pesawats', function (Blueprint $table) {
+        Schema::create('unggas', function (Blueprint $table) {
             $table->id();
-            $table->string('image');
-            $table->string('title');
-            $table->text('description');
-            $table->bigInteger('price');
-            $table->integer('stock')->default(0);
+            $table->string('nama', 100);
+            $table->string('jenis', 50)->nullable();
+            $table->integer('jumlah')->default(0);
+            $table->decimal('harga', 10, 2)->nullable();
+            $table->date('tanggal_masuk')->nullable();
+            $table->boolean('aktif')->default(true);
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pesawats');
+        Schema::dropIfExists('unggas');
     }
 };

@@ -6,24 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\{{model}};
 use App\Http\Resources\{{resource}};
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Helpers\ValidationHelper;
 
 class Create{{model}}Controller extends Controller
 {
     public function __invoke(Request $request)
     {
-        $validated = $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'title' => 'required',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'stock' => 'required|numeric',
-        ]);
+        $validated = $request->validate(
+            ValidationHelper::rulesFromModel({{model}}::class)
+        );
 
-        $image = $request->file('image');
-        $image->storeAs('{{modelLower}}s', $image->hashName());
-
-        $data = {{model}}::create(array_merge($validated, ['image' => $image->hashName()]));
+        $data = {{model}}::create($validated);
 
         return new {{resource}}(true, '{{model}} created successfully', $data);
     }
