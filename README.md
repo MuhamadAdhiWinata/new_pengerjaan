@@ -8,8 +8,9 @@
 </p>
 
 1. Overview
-   RestfulApi Generator By Adhinath adalah CRUD generator berbasis Laravel yang otomatis:
 
+
+    *RestfulApi Generator By Adhinath adalah CRUD generator berbasis Laravel yang otomatis:*
 -   Membuat Controller (Create, Read, Update, Delete) lengkap.
 -   Membuat Routes API.
 -   Membuat Migration + Model.
@@ -47,16 +48,59 @@
     $table->integer('harga');
     $table->timestamps();
 ```
-- Terakhir kita buat modelnya, kalau buat model aja masih nggak bisa mending pulang sana wkwk. Bercanda :) nih contohnya :
+-   Lalu Jalankan Migrations :
 ```bash
-    $table->id();
-    $table->string('name');
-    $table->integer('harga');
-    $table->timestamps();
+    php artisan migrate
+```
+  <img width="1350" height="161" alt="image" src="https://github.com/user-attachments/assets/37c3a881-9724-48a6-9b66-95dac5d19b4f" />
+
+-   Terakhir kita buat modelnya, kalau buat model aja masih nggak bisa mending pulang sana wkwk. Bercanda :) nih contohnya :
+```bash
+    <?php
+
+    namespace App\Models;
+    
+    use Illuminate\Database\Eloquent\Factories\HasFactory;
+    use Illuminate\Database\Eloquent\Model;
+    
+    class Barang extends Model
+    {
+        use HasFactory;
+    
+        protected $fillable = [
+            'name',
+            'harga',
+        ];
+    }
+
 ```
 
-4. 
+4. Hasil
 
+-  Running menggunakan artisan
+```bash
+    php artisan serve
+```
+-  Testing API menggunakan tools kecintaan anda. disini saya pakai laravel scrambler dan berikut hasilnya :
+    <img width="360" height="436" alt="image" src="https://github.com/user-attachments/assets/ce48314e-c6fb-4051-b160-8fc6d9bc36f8" />
+
+SELAMAT RestfullApi dengan CRUD generator pertama anda sudah dibuat!🥳. 
+
+📌 Requirements
+Sebelum menggunakan Adhinath Generator, WAJIB paham hal-hal berikut:
+- Laravel
+- Struktur folder (app, routes, database, dll)
+- Cara kerja artisan command
+- Konsep Model, Migration, Controller, dan Resource
+- Konsep RESTful API
+- HTTP Method (GET, POST, PUT, DELETE)
+- Konvensi endpoint RESTful (/api/users, /api/users/{id})
+- Response format JSON (success, message, data)
+- Database & Eloquent ORM
+- fillable
+- Query dasar dengan Eloquent
+- Basic Request Validation
+- Aturan validasi Laravel (required, numeric, date, dll)
 ## License
 
 The software licensed under the [MIT license](https://opensource.org/licenses/MIT).
