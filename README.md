@@ -19,8 +19,43 @@
 2. Instalasi
 
 -   Clone RestfulApi Generator By Adhinath.
+-   Jalankan Perintah Berikut : 
+```bash
+    composer install
+    php artisan storage:link
+    php artisan install:api
+```
 
-3.
+3. Cara Penggunaan
+   Tentukan nama Entitas yang ingin anda buat. disini kita gunakan "Barang".
+   
+-   Jalankan Perintah Berikut :
+```bash
+    php artisan make:rest Barang
+```
+-   Maka Akan Muncul Response Berikut :
+    <img width="1395" height="389" alt="image" src="https://github.com/user-attachments/assets/847aaca3-00fc-4454-a927-0c08542ce3de" />
+    Selamat RestfullApi Pertama Anda hampir selesai dibuat! Lanjutkan agar selesai.
+    
+-   Selanjutnya buatlah field dari migrations yg sudah kita generate :
+    <img width="554" height="28" alt="image" src="https://github.com/user-attachments/assets/f6ad2e83-e08c-42be-95d3-5ff6913ab0ac" />
+    <img width="610" height="228" alt="image" src="https://github.com/user-attachments/assets/9b850791-56cf-403c-8bca-5abe10653bc8" />
+    disini kita tambahkan nama dan harga sebagai contoh.
+```bash
+    $table->id();
+    $table->string('name');
+    $table->integer('harga');
+    $table->timestamps();
+```
+- Terakhir kita buat modelnya, kalau buat model aja masih nggak bisa mending pulang sana wkwk. Bercanda :) nih contohnya :
+```bash
+    $table->id();
+    $table->string('name');
+    $table->integer('harga');
+    $table->timestamps();
+```
+
+4. 
 
 ## License
 
