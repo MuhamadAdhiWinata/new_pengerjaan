@@ -92,6 +92,6 @@ EOT;
         } else {
             $this->warn("⚠️ Route group for {$name} already exists in routes/api.php");
         }
-        $this->info("✅ REST API for {$name} generated.");
+        $this->info("✅ REST API By Adhinath for {$name} generated.");
     }
 }
