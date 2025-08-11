@@ -74,7 +74,7 @@ use App\Http\Controllers\Api\\{$nameLower}\\GetOne{$name}Controller;
 use App\Http\Controllers\Api\\{$nameLower}\\Update{$name}Controller;
 use App\Http\Controllers\Api\\{$nameLower}\\Delete{$name}Controller;
 
-Route::prefix('{$nameLower}s')->name('{$nameLower}.')->group(function () {
+Route::prefix('{$nameLower}')->name('{$nameLower}.')->group(function () {
     Route::get('/', GetAll{$name}Controller::class);
     Route::get('/{id}', GetOne{$name}Controller::class);
     Route::post('/', Create{$name}Controller::class);
