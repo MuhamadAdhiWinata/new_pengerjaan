@@ -1,0 +1,16 @@
+<?php
+use Illuminate\Support\Facades\Route;
+// Auto-generated for Coin
+use App\Http\Controllers\Api\coin\CreateCoinController;
+use App\Http\Controllers\Api\coin\GetAllCoinController;
+use App\Http\Controllers\Api\coin\GetOneCoinController;
+use App\Http\Controllers\Api\coin\UpdateCoinController;
+use App\Http\Controllers\Api\coin\DeleteCoinController;
+
+Route::prefix('coin')->name('coin.')->group(function () {
+    Route::get('/', GetAllCoinController::class);
+    Route::get('/{id}', GetOneCoinController::class);
+    Route::post('/', CreateCoinController::class);
+    Route::put('/{id}', UpdateCoinController::class);
+    Route::delete('/{id}', DeleteCoinController::class);
+});

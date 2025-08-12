@@ -8,8 +8,9 @@ use Illuminate\Support\Str;
 
 class MakeRestApi extends Command
 {
-    protected $signature = 'make:rest {name}';
-    protected $description = 'Generate RESTful API by use-case (Controller, Resource, Route)';
+    protected $signature = 'nathgen:rest {name}';
+    protected $description = 'Generate full RESTful API (Model, Migration, Resource, Controllers, and Route injection)';
+
 
     public function handle()
     {
@@ -25,7 +26,9 @@ class MakeRestApi extends Command
         // 1. Generate Model & migration
         $this->call('make:model', [
             'name' => $name,
-            '--migration' => true]);
+            '--migration' => true,
+            '--factory' => true,
+        ]);
 
         // 2. Generate Resource
         $this->call('make:resource', ['name' => $resourceName]);
