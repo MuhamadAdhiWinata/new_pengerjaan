@@ -30,7 +30,7 @@
 3. Cara Penggunaan
    Tentukan nama Entitas yang ingin anda buat. disini kita gunakan "Barang".
 
-    NOTE: Perintah bisa berubah karena masih dalam tahap pengembangan. untuk selalu updatate pastikan mengecek list nathgen.
+    NOTE: Perintah bisa berubah karena masih dalam tahap pengembangan. untuk selalu update pastikan mengecek list nathgen.
 -   Jalankan Perintah Berikut:
 ```bash
     php artisan list | grep nathgen
