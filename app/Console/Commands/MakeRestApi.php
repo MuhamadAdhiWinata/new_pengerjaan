@@ -9,8 +9,7 @@ use Illuminate\Support\Str;
 class MakeRestApi extends Command
 {
     protected $signature = 'nathgen:rest {name}';
-    protected $description = 'Generate full RESTful API (Model, Migration, Resource, Controllers, and Route injection)';
-
+    protected $description = 'Generate RESTful API (Controller, Resource, Route, Model, Migration) with optional interactive migration & model fillable setup';
 
     public function handle()
     {
@@ -27,13 +26,13 @@ class MakeRestApi extends Command
         $this->call('make:model', [
             'name' => $name,
             '--migration' => true,
-            '--factory' => true,
+            '--factory' => true
         ]);
 
         // 2. Generate Resource
         $this->call('make:resource', ['name' => $resourceName]);
 
-        // 3. Generate 4 Controller by use-case
+        // 3. Generate 5 Controller by use-case
         $controllers = [
             'Create' => 'create-controller.stub',
             'GetAll' => 'getall-controller.stub',
@@ -87,7 +86,6 @@ Route::prefix('{$nameLower}')->name('{$nameLower}.')->group(function () {
 
 EOT;
 
-        // Inject only if not exists
         $routeContent = File::get($routeFile);
         if (!Str::contains($routeContent, "GetAll{$name}Controller")) {
             File::append($routeFile, $routeStub);
@@ -95,6 +93,67 @@ EOT;
         } else {
             $this->warn("⚠️ Route group for {$name} already exists in routes/api.php");
         }
-        $this->info("✅ REST API By Adhinath for {$name} generated.");
+
+        // 6. Optional: Interactive migration & fillable setup
+        if ($this->confirm('Aktifkan mode interaktif untuk migration & model?', false)) {
+            $this->interactiveMigrationAndModel($name);
+        }
+
+        $this->info("✅ REST API By NathGen for {$name} generated.");
     }
+
+    protected function interactiveMigrationAndModel($name)
+    {
+        $tableName = Str::snake(Str::pluralStudly($name));
+        $migrationFile = collect(File::files(database_path('migrations')))
+            ->first(fn($file) => Str::contains($file->getFilename(), "create_{$tableName}_table"));
+
+        if (!$migrationFile) {
+            $this->error("Migration file for {$tableName} not found.");
+            return;
+        }
+
+        $fields = [];
+        while (true) {
+            $fieldName = $this->ask('Nama field (atau tekan Enter untuk selesai)');
+            if (!$fieldName) break;
+
+            $type = $this->choice('Tipe data', [
+                'string', 'text', 'integer', 'bigInteger', 'boolean',
+                'date', 'datetime', 'float', 'decimal'
+            ], 0);
+
+            $fields[] = compact('fieldName', 'type');
+        }
+
+        // Inject ke migration setelah $table->id();
+        $migrationContent = File::get($migrationFile->getPathname());
+        $schemaLines = '';
+        foreach ($fields as $field) {
+            $schemaLines .= "            \$table->{$field['type']}('{$field['fieldName']}');\n";
+        }
+
+        $migrationContent = preg_replace(
+            '/(\$table->id\(\);\n)/',
+            "$1{$schemaLines}",
+            $migrationContent,
+            1
+        );
+
+        File::put($migrationFile->getPathname(), $migrationContent);
+        $this->info("✅ Fields injected into migration: " . implode(', ', array_column($fields, 'fieldName')));
+
+        // Inject ke model fillable
+        $modelPath = app_path("Models/{$name}.php");
+        $modelContent = File::get($modelPath);
+        $fillableArray = "protected \$fillable = ['" . implode("', '", array_column($fields, 'fieldName')) . "'];";
+        $modelContent = preg_replace(
+            '/(class\s+' . $name . '\s+extends\s+Model\s*\{)/',
+            "$1\n    {$fillableArray}\n",
+            $modelContent
+        );
+        File::put($modelPath, $modelContent);
+        $this->info("✅ Fillable fields added to model: " . implode(', ', array_column($fields, 'fieldName')));
+    }
+
 }
