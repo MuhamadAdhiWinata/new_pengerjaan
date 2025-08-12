@@ -29,9 +29,12 @@
 
 3. Cara Penggunaan
    Tentukan nama Entitas yang ingin anda buat. disini kita gunakan "Barang".
-   
--   Jalankan Perintah Berikut :
+
+    NOTE: Perintah bisa berubah karena masih dalam tahap pengembangan. untuk selalu updatate pastikan mengecek list nathgen.
+-   Jalankan Perintah Berikut:
 ```bash
+    php artisan list | grep nathgen
+
     php artisan make:rest Barang
 ```
 -   Maka Akan Muncul Response Berikut :
