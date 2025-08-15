@@ -25,7 +25,24 @@
     composer install
     php artisan storage:link
     php artisan install:api
+    php artisan key:generate
+    cp .env.example .env
 ```
+-   Sesuaikan .env .
+```bash
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=YOUR_DATABASE_NAME
+    DB_USERNAME=YOUR_USERNAME
+    DB_PASSWORD=YOUR_PASSWORD
+```
+-   Buat Folder Api di dalam Controller
+```bash
+    mkdir app/Http/Controllers/Api
+```
+-   Patikan Folder Models Juga ada. jika tidak ada buatlah.
+
 
 3. Cara Penggunaan
    Tentukan nama Entitas yang ingin anda buat. disini kita gunakan "Barang".
@@ -35,7 +52,7 @@
 ```bash
     php artisan list | grep nathgen
 
-    php artisan make:rest Barang
+    php artisan nathgen:rest Barang
 ```
 -   Maka Akan Muncul Response Berikut :
     <img width="1395" height="389" alt="image" src="https://github.com/user-attachments/assets/847aaca3-00fc-4454-a927-0c08542ce3de" />
