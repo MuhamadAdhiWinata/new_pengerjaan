@@ -110,3 +110,8 @@ use App\Http\Controllers\Api\relations\ShowPesertaStatusUjiController;
 
 Route::get('/peserta/{kd_peserta}/status-uji', ShowPesertaStatusUjiController::class);
 
+use App\Http\Controllers\Api\relations\SubmitJawabanController;
+
+Route::post('/jawaban/submit/{kd_jawaban}', SubmitJawabanController::class);
+
+
