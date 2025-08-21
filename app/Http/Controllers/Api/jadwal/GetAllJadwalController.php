@@ -11,7 +11,7 @@ class GetAllJadwalController extends Controller
 {
     public function __invoke()
     {
-        $data = Jadwal::latest()->paginate(10);
+        $data = Jadwal::orderBy('kd', 'asc')->paginate(10);
         if ($data->isEmpty()) {
             throw new ModelNotFoundException();
         }

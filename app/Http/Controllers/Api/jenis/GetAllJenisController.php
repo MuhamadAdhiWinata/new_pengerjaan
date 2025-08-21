@@ -11,7 +11,7 @@ class GetAllJenisController extends Controller
 {
     public function __invoke()
     {
-        $data = Jenis::latest()->paginate(10);
+        $data = Jenis::orderBy('kd', 'asc')->paginate(10);
         if ($data->isEmpty()) {
             throw new ModelNotFoundException();
         }

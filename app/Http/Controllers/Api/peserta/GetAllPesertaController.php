@@ -11,7 +11,7 @@ class GetAllPesertaController extends Controller
 {
     public function __invoke()
     {
-        $data = Peserta::latest()->paginate(10);
+        $data = Peserta::orderBy('kd', 'asc')->paginate(10);
         if ($data->isEmpty()) {
             throw new ModelNotFoundException();
         }

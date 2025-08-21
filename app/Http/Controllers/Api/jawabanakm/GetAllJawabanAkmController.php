@@ -11,7 +11,7 @@ class GetAllJawabanAkmController extends Controller
 {
     public function __invoke()
     {
-        $data = JawabanAkm::latest()->paginate(10);
+        $data = JawabanAkm::orderBy('kd', 'asc')->paginate(10);
         if ($data->isEmpty()) {
             throw new ModelNotFoundException();
         }

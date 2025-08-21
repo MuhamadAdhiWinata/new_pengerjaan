@@ -11,7 +11,7 @@ class GetAllMasterEventController extends Controller
 {
     public function __invoke()
     {
-        $data = MasterEvent::latest()->paginate(10);
+        $data = MasterEvent::orderBy('kd', 'asc')->paginate(10);
         if ($data->isEmpty()) {
             throw new ModelNotFoundException();
         }
