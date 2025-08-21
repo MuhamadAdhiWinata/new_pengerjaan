@@ -33,13 +33,4 @@ class PesertaEvent extends Model
         'sts_bayar',
     ];
 
-    public function masterEvent()
-    {
-        return $this->belongsTo(MasterEvent::class, 'kd_master_event', 'kd');
-    }
-
-    public function peserta()
-    {
-        return $this->belongsTo(Peserta::class, 'kd_peserta', 'kd');
-    }
 }

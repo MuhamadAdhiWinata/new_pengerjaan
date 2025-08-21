@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MasterEvent;
+use App\Models\PesertaEvent;
+use App\Models\Jadwal;
 
 class Peserta extends Model
 {
@@ -44,10 +47,21 @@ class Peserta extends Model
         return $this->belongsToMany(
             MasterEvent::class,
             'at_peserta_perevent',
-            'kd_peserta',       // FK peserta di pivot
-            'kd_master_event'   // FK event di pivot
-        )
-        ->withPivot(['status_aktif']);
+            'kd_peserta',
+            'kd_master_event'
+        )->withPivot(['status_aktif']);
+    }
+
+    public function jadwals()
+    {
+        return $this->hasManyThrough(
+            Jadwal::class,
+            PesertaEvent::class,
+            'kd_peserta',        // FK di PesertaEvent ke Peserta
+            'kd_master_event',   // FK di Jadwal ke master_event
+            'kd',                // PK di Peserta
+            'kd_master_event'    // PK di PesertaEvent
+        );
     }
 
 }

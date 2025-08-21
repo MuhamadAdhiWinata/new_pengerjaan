@@ -3,49 +3,42 @@
 namespace App\Http\Controllers\Api\relations;
 
 use App\Http\Controllers\Controller;
+use App\Models\Peserta;
 use App\Http\Resources\Relations\PesertaEventWithJadwalJenisResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
 
 class ShowPesertaEventWithJadwalJenis extends Controller
 {
-    public function __invoke($kd_peserta, $kd_master_event)
+    public function __invoke($id_peserta, $kd_master_event)
     {
-        $data = DB::connection('mysql_fe')
-            ->table('at_ijin as i')
-            ->join('at_jenis as j', 'i.kd_jenis', '=', 'j.kd')
-            ->join('at_peserta_perevent as p', 'i.kd_master_event', '=', 'p.kd_master_event')
-            ->where('p.kd_peserta', $kd_peserta)
-            ->where('i.kd_master_event', $kd_master_event)
-            ->where('p.status_aktif', 1)
-            ->select(
-                'i.kd as kd_ijin',
-                'i.ijin_nama',
-                'i.mulai',
-                'i.selesai',
-                'i.kd_master_event',
-                'i.tampil_hasil',
-                'i.kd_cabang as prg_event',
-                'j.kd as kd_jenis',
-                'j.jenis',
-                'j.waktu',
-                'j.tipe_pengerjaan',
-                'j.status_akm',
-                'p.kd_peserta'
-            )
-            ->orderBy('i.mulai', 'asc')
-            ->orderBy('i.kd', 'asc')
-            ->get();
+        $peserta = Peserta::with(['jadwals' => function($q) use($kd_master_event) {
+            $q->where('at_ijin.kd_master_event', $kd_master_event)
+              ->join('at_jenis', 'at_ijin.kd_jenis', '=', 'at_jenis.kd')
+              ->select(
+                  'at_ijin.kd as kd_ijin',
+                  'at_ijin.ijin_nama',
+                  'at_ijin.mulai',
+                  'at_ijin.selesai',
+                  'at_ijin.kd_master_event',
+                  'at_ijin.tampil_hasil',
+                  'at_ijin.kd_cabang as prg_event',
+                  'at_jenis.kd as kd_jenis',
+                  'at_jenis.jenis',
+                  'at_jenis.waktu',
+                  'at_jenis.tipe_pengerjaan',
+                  'at_jenis.status_akm',
+                  'at_peserta_perevent.kd_peserta'
+              );
+        }])->find($id_peserta);
 
-        if ($data->isEmpty()) {
-            throw new ModelNotFoundException('Tidak ada jadwal untuk peserta ini');
+        if (!$peserta || $peserta->jadwals->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak ada jadwal untuk peserta ini',
+                'data'    => []
+            ]);
         }
 
-        // wrap collection ke Resource
-        return PesertaEventWithJadwalJenisResource::collection($data)
-            ->additional([
-                'success' => true,
-                'message' => 'Detail Jadwal + Jenis untuk Peserta',
-            ]);
+        return new PesertaEventWithJadwalJenisResource(true, 'Detail Peserta dengan Jadwal & Jenis', $peserta);
     }
 }

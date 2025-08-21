@@ -2,6 +2,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PesertaEvent;
+
 
 class Jadwal extends Model
 {
@@ -55,5 +57,10 @@ class Jadwal extends Model
     public function jenis()
     {
         return $this->belongsTo(Jenis::class, 'kd_jenis', 'kd');
+    }
+
+    public function pesertaPerevent()
+    {
+        return $this->hasMany(PesertaEvent::class, 'kd_master_event', 'kd_master_event');
     }
 }

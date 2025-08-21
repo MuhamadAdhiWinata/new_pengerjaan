@@ -83,3 +83,30 @@ use App\Http\Controllers\Api\relations\ShowPesertaEventWithJadwalJenis;
 
 Route::get('/peserta/{kd_peserta}/event/{kd_master_event}/jadwal-jenis', ShowPesertaEventWithJadwalJenis::class);
 
+use App\Http\Controllers\Api\relations\ShowJadwalWithJenisController;
+
+Route::get('/jadwal/show/{kd_ijin}', ShowJadwalWithJenisController::class);
+
+use App\Http\Controllers\Api\relations\ValidateJenisKodeController;
+
+Route::post('/validate-jenis-kode', ValidateJenisKodeController::class);
+
+
+
+
+
+
+// Auto-generated for JawabanAkm
+use App\Http\Controllers\Api\jawabanakm\CreateJawabanAkmController;
+use App\Http\Controllers\Api\jawabanakm\GetAllJawabanAkmController;
+use App\Http\Controllers\Api\jawabanakm\GetOneJawabanAkmController;
+use App\Http\Controllers\Api\jawabanakm\UpdateJawabanAkmController;
+use App\Http\Controllers\Api\jawabanakm\DeleteJawabanAkmController;
+
+Route::prefix('jawabanakm')->name('jawabanakm.')->group(function () {
+    Route::get('/', GetAllJawabanAkmController::class);
+    Route::get('/{id}', GetOneJawabanAkmController::class);
+    Route::post('/', CreateJawabanAkmController::class);
+    Route::put('/{id}', UpdateJawabanAkmController::class);
+    Route::delete('/{id}', DeleteJawabanAkmController::class);
+});
