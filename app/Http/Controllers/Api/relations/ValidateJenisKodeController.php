@@ -23,7 +23,9 @@ class ValidateJenisKodeController extends Controller
 
         if ($jenis->kode === $validated['kode']) {
             return new ValidateJenisKodeResource(true, 'Kode sesuai', [
-                'soal_generate' => $jenis->soal_generate
+                'soal_generate' => $jenis->soal_generate,
+                'link_embed' => $jenis->link_embed,
+
             ]);
         }
 

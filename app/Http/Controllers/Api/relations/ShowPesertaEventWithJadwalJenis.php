@@ -13,22 +13,22 @@ class ShowPesertaEventWithJadwalJenis extends Controller
     {
         $peserta = Peserta::with(['jadwals' => function($q) use($kd_master_event) {
             $q->where('at_ijin.kd_master_event', $kd_master_event)
-              ->join('at_jenis', 'at_ijin.kd_jenis', '=', 'at_jenis.kd')
-              ->select(
-                  'at_ijin.kd as kd_ijin',
-                  'at_ijin.ijin_nama',
-                  'at_ijin.mulai',
-                  'at_ijin.selesai',
-                  'at_ijin.kd_master_event',
-                  'at_ijin.tampil_hasil',
-                  'at_ijin.kd_cabang as prg_event',
-                  'at_jenis.kd as kd_jenis',
-                  'at_jenis.jenis',
-                  'at_jenis.waktu',
-                  'at_jenis.tipe_pengerjaan',
-                  'at_jenis.status_akm',
-                  'at_peserta_perevent.kd_peserta'
-              );
+            ->join('at_jenis', 'at_ijin.kd_jenis', '=', 'at_jenis.kd')
+            ->select(
+                'at_ijin.kd as kd_ijin',
+                'at_ijin.ijin_nama',
+                'at_ijin.mulai',
+                'at_ijin.selesai',
+                'at_ijin.kd_master_event',
+                'at_ijin.tampil_hasil',
+                'at_ijin.kd_cabang as prg_event',
+                'at_jenis.kd as kd_jenis',
+                'at_jenis.jenis',
+                'at_jenis.waktu',
+                'at_jenis.tipe_pengerjaan',
+                'at_jenis.status_akm',
+                'at_peserta_perevent.kd_peserta'
+            );
         }])->find($id_peserta);
 
         if (!$peserta || $peserta->jadwals->isEmpty()) {

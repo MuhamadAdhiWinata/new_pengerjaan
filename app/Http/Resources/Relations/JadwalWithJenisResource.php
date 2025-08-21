@@ -24,6 +24,7 @@ class JadwalWithJenisResource extends JsonResource
             'message' => $this->message,
             'data'    => [
                 'kd_ijin'     => $this->kd,
+                'kd_jenis'     => $this->kd_jenis,
                 'ijin_nama'   => $this->ijin_nama,
                 'mulai'       => $this->mulai,
                 'selesai'     => $this->selesai,
